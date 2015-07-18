@@ -13,10 +13,8 @@ echo "Installing Java..."
 sudo yum -y install java-1.8.0-openjdk
 echo "Installing git..."
 sudo yum -y install git
-echo "Installing Pyenv..."
-curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-echo "Installing Pip..."
-sudo yum -y install python-pip
+echo "Installing Ruby Dependancies..."
+sudo yum install -y git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel
 
 
 #There is so much more we need to do here:
@@ -27,3 +25,8 @@ if ! [ -L /var/www ]; then
   rm -rf /var/www
   ln -fs /vagrant /var/www
 fi
+
+#Update bash profile
+echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >>~/.bash_profile
+echo 'eval "$(pyenv init -)"' >>~/.bash_profile
+echo '"$(pyenv virtualenv-init -)"' >>~/.bash_profile
