@@ -16,6 +16,23 @@ sudo yum -y install git
 echo "Installing Ruby Dependancies..."
 sudo yum install -y git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel
 
+echo "Installing rbenv"
+git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+exec $SHELL
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+exec $SHELL
+source ~/.bash_profile
+
+echo "Installing Ruby"
+rbenv install -v 2.1.5
+rbenv global 2.1.5
+#We don't want gem documentation to be installed with gems
+echo "gem: --no-document" > ~/.gemrc
+gem install bundler
+gem install rails -v 4.2.3
 
 #There is so much more we need to do here:
 #1: Figure out chef (maybe)
@@ -26,7 +43,8 @@ if ! [ -L /var/www ]; then
   ln -fs /vagrant /var/www
 fi
 
+#Set up directories
+mkdir /vagrant/projects/
+cd /vagrant/projects/
+
 #Update bash profile
-echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >>~/.bash_profile
-echo 'eval "$(pyenv init -)"' >>~/.bash_profile
-echo '"$(pyenv virtualenv-init -)"' >>~/.bash_profile
