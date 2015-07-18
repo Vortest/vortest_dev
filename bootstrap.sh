@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+echo "Installing EPEL Repo..."
+sudo yum -y install epel-release
+echo "Installing Nano - Cause VI sucks"
+sudo yum -y install nano
 echo "Installing Apache..."
 sudo yum -y install httpd mod_ssl
 echo "Unblocking port 80"
@@ -9,8 +13,11 @@ echo "Installing Java..."
 sudo yum -y install java-1.8.0-openjdk
 echo "Installing git..."
 sudo yum -y install git
-echo "Installing Python..."
-sudo yum -y install Python
+echo "Installing Pyenv..."
+curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+echo "Installing Pip..."
+sudo yum -y install python-pip
+
 
 #There is so much more we need to do here:
 #1: Figure out chef (maybe)
