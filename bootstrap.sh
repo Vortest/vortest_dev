@@ -15,6 +15,8 @@ echo "Installing git..."
 sudo yum -y install git
 echo "Installing Ruby Dependancies..."
 sudo yum install -y git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel
+echo "Install NodeJS"
+sudo yum -y install NodeJS
 
 echo "Installing rbenv"
 git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
