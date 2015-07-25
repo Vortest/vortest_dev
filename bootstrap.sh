@@ -1,40 +1,60 @@
 #!/usr/bin/env bash
+echo "###########################"
 echo "Installing EPEL Repo..."
+echo "Needed as dependancy for other things..."
+echo "###################################"
 sudo yum -y install epel-release
+
+echo "###########################"
 echo "Installing Nano - Cause VI sucks"
+echo "###########################"
 sudo yum -y install nano
-echo "Installing Apache..."
-sudo yum -y install httpd mod_ssl
+
 echo "Unblocking port 80"
 sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-echo "Installing php..."
-sudo yum -y install php-mysql php-devel php-gd php-pecl-memcache php-pspell php-snmp php-xmlrpc php-xml
-echo "Installing Java..."
-sudo yum -y install java-1.8.0-openjdk
-echo "Installing git..."
-sudo yum -y install git
-echo "Installing Ruby Dependancies..."
-sudo yum install -y git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel
-echo "Install NodeJS"
-sudo yum -y install NodeJS
 
+echo "###########################"
+echo "Installing git..."
+echo "###########################"
+sudo yum -y install git
+
+echo "###########################"
+echo "Install NodeJS"
+echo "###########################"
+sudo yum -y install nodejs
+
+echo "###########################"
+echo "Installing Ruby Dependancies..."
+echo "###########################"
+#sudo yum install -y git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel
+
+echo "###########################"
 echo "Installing rbenv"
-git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+echo "###########################"
+
+sudo git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
 echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-exec $SHELL
-git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
-exec $SHELL
-source ~/.bash_profile
 
-echo "Installing Ruby"
-rbenv install -v 2.1.5
-rbenv global 2.1.5
+sudo git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+
+
+
+echo "###########################"
+echo "Installing Ruby 2.2.0"
+echo "###########################"
+rbenv install -v 2.2.0
+rbenv global 2.2.0
 #We don't want gem documentation to be installed with gems
 echo "gem: --no-document" > ~/.gemrc
 gem install bundler
 gem install rails -v 4.2.3
+#start rails with rails s -b 0.0.0.0 instead of the loopback address
+
+echo "Install Heroku"
+sudo wget -c https://toolbelt.herokuapp.com/install.sh && sh install.sh
+echo 'export PATH="/usr/local/heroku/bin:$PATH"' >> ~/.bash_profile  ##Add to profile
 
 #There is so much more we need to do here:
 #1: Figure out chef (maybe)
@@ -50,3 +70,10 @@ mkdir /vagrant/projects/
 cd /vagrant/projects/
 
 #Update bash profile
+####OLD INSTALLERS
+#echo "Installing php..."
+#sudo yum -y install php-mysql php-devel php-gd php-pecl-memcache php-pspell php-snmp php-xmlrpc php-xml
+#echo "Installing Java..."
+#sudo yum -y install java-1.8.0-openjdk
+#echo "Installing Apache..."
+#sudo yum -y install httpd mod_ssl
