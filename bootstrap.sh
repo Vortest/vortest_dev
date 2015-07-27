@@ -26,20 +26,17 @@ sudo yum -y install nodejs
 echo "###########################"
 echo "Installing Ruby Dependancies..."
 echo "###########################"
-#sudo yum install -y git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel
+sudo yum install -y git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel
 
 echo "###########################"
 echo "Installing rbenv"
 echo "###########################"
-
 sudo git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
-echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-
+echo  'export PATH="$HOME/.rbenv/bin:$PATH"' >> /home/vagrant/.bash_profile
+echo  'eval "$(rbenv init -)"' >> /home/vagrant/.bash_profile
 sudo git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
-
-
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.bash_profile
+source /home/vagrant/.bash_profile
 
 echo "###########################"
 echo "Installing Ruby 2.2.0"
@@ -48,22 +45,19 @@ rbenv install -v 2.2.0
 rbenv global 2.2.0
 #We don't want gem documentation to be installed with gems
 echo "gem: --no-document" > ~/.gemrc
-gem install bundler
+gem install bundler  
+echo "###########################"
+echo "Installing Ruby on Rails"
+echo "###########################"
 gem install rails -v 4.2.3
 #start rails with rails s -b 0.0.0.0 instead of the loopback address
 
-echo "Install Heroku"
+echo "###########################"
+echo "Installing Heroku"
+echo "###########################"
 sudo wget -c https://toolbelt.herokuapp.com/install.sh && sh install.sh
-echo 'export PATH="/usr/local/heroku/bin:$PATH"' >> ~/.bash_profile  ##Add to profile
+echo 'export PATH="/usr/local/heroku/bin:$PATH"' >> /home/vagrant/.bash_profile ##Add to profile
 
-#There is so much more we need to do here:
-#1: Figure out chef (maybe)
-#1: Clone the project folders
-#2: Set up bash to set JAVA_HOME directory
-if ! [ -L /var/www ]; then
-  rm -rf /var/www
-  ln -fs /vagrant /var/www
-fi
 
 #Set up directories
 mkdir /vagrant/projects/
