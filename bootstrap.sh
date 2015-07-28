@@ -31,26 +31,26 @@ sudo yum install -y git-core zlib zlib-devel gcc-c++ patch readline readline-dev
 echo "###########################"
 echo "Installing rbenv"
 echo "###########################"
-cd /opt
-sudo git clone git://github.com/sstephenson/rbenv.git 
-echo  'export PATH="/opt/rbenv/bin:$PATH"' >> /home/vagrant/.bash_profile
+
+git clone git://github.com/sstephenson/rbenv.git /usr/local/rbenv
+echo  'export PATH="/usr/local/rbenv/bin:$PATH"' >> /home/vagrant/.bash_profile
 echo  'eval "$(rbenv init -)"' >> /home/vagrant/.bash_profile
-sudo git clone git://github.com/sstephenson/ruby-build.git /opt/rbenv/plugins/ruby-build
-echo 'export PATH="/opt/rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.bash_profile
+git clone git://github.com/sstephenson/ruby-build.git /usr/local/rbenv/plugins/ruby-build
+echo 'export PATH="/usr/local/rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.bash_profile
 source /home/vagrant/.bash_profile
 
 echo "###########################"
 echo "Installing Ruby 2.2.0"
 echo "###########################"
-rbenv install -v 2.2.0
-rbenv global 2.2.0
+sudo -u vagrant -i rbenv install -v 2.2.0
+sudo -u vagrant -i rbenv global 2.2.0
 #We don't want gem documentation to be installed with gems
 echo "gem: --no-document" > ~/.gemrc
-gem install bundler  
+sudo -u vagrant -i gem install bundler  
 echo "###########################"
 echo "Installing Ruby on Rails"
 echo "###########################"
-gem install rails -v 4.2.3
+sudo -u vagrant -i gem install rails -v 4.2.3
 #start rails with rails s -b 0.0.0.0 instead of the loopback address
 
 #echo "###########################"
