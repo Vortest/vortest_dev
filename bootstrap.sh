@@ -53,6 +53,10 @@ echo "###########################"
 sudo -u vagrant -i gem install rails -v 4.2.3
 #start rails with rails s -b 0.0.0.0 instead of the loopback address
 
+sudo sudo cp /vagrant/mongodb-org-3.0.repo /etc/yum.repos.d/
+sudo sudo yum install -y mongodb-org
+
+
 #echo "###########################"
 #echo "Installing Heroku"
 #echo "###########################"
@@ -60,9 +64,13 @@ sudo -u vagrant -i gem install rails -v 4.2.3
 #echo 'export PATH="/usr/local/heroku/bin:$PATH"' >> /home/vagrant/.bash_profile ##Add to profile
 
 
+
 #Set up directories
+rm -rf /vagrant/projects/
 mkdir /vagrant/projects/
 cd /vagrant/projects/
+
+
 
 #Update bash profile
 ####OLD INSTALLERS
