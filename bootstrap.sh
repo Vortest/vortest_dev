@@ -53,9 +53,17 @@ echo "###########################"
 sudo -u vagrant -i gem install rails -v 4.2.3
 #start rails with rails s -b 0.0.0.0 instead of the loopback address
 
-sudo sudo cp /vagrant/mongodb-org-3.0.repo /etc/yum.repos.d/
-sudo sudo yum install -y mongodb-org
+echo "###########################"
+echo "Install RSpec"
+echo "###########################"
+sudo -u vagrant -i gem install rspec
 
+echo "###########################"
+echo "Install Mongo"
+echo "###########################"
+sudo cp /vagrant/mongodb-org-3.0.repo /etc/yum.repos.d/
+sudo yum install -y mongodb-org
+sudo yum install -y pymongo
 
 #echo "###########################"
 #echo "Installing Heroku"
@@ -63,14 +71,20 @@ sudo sudo yum install -y mongodb-org
 #sudo wget -c https://toolbelt.herokuapp.com/install.sh && sh install.sh
 #echo 'export PATH="/usr/local/heroku/bin:$PATH"' >> /home/vagrant/.bash_profile ##Add to profile
 
+#echo "###########################"
+#echo "Installing Firefox"
+#echo "###########################"
 
+sudo yum -y install firefox Xvfb libXfont Xorg
+#sudo yum -y groupinstall "X Window System" "Desktop" "Fonts" "General Purpose Desktop"
+Xvfb :99 -ac -screen 0 1280x1024x24 &
+export DISPLAY=:99
+#java -jar /opt/selenium-server-standalone.jar &
 
 #Set up directories
 rm -rf /vagrant/projects/
 mkdir /vagrant/projects/
 cd /vagrant/projects/
-
-
 
 #Update bash profile
 ####OLD INSTALLERS

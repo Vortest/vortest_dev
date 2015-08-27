@@ -25,7 +25,11 @@ Vagrant.configure(2) do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "forwarded_port", guest: 3000, guest_ip: 'localhost', host: 3000, host_ip: 'localhost'
+  config.vm.network "forwarded_port", guest: 3001, guest_ip: 'localhost', host: 3001, host_ip: 'localhost'
 
+  config.vm.provider :virtualbox do |vb|
+      vb.gui = true
+    end
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
