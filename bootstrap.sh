@@ -72,25 +72,32 @@ sudo yum install -y pymongo
 #echo 'export PATH="/usr/local/heroku/bin:$PATH"' >> /home/vagrant/.bash_profile ##Add to profile
 
 #echo "###########################"
+#echo "Installing Chrome"
+#echo "###########################"
+sudo cp /vagrant/google-chrome.repo /etc/yum.repos.d/
+wget http://chrome.richardlloyd.org.uk/install_chrome.sh
+sudo chmod u+x install_chrome.sh
+sudo ./install_chrome.sh -f -f -f
+sudo yum install -y google-chrome-stable
+
+#echo "###########################"
 #echo "Installing Firefox"
 #echo "###########################"
 
 sudo yum -y install firefox Xvfb libXfont Xorg
 #sudo yum -y groupinstall "X Window System" "Desktop" "Fonts" "General Purpose Desktop"
-Xvfb :99 -ac -screen 0 1280x1024x24 &
+Xvfb :99 -ac &
 export DISPLAY=:99
-#java -jar /opt/selenium-server-standalone.jar &
+firefox &
+
+#echo "###########################"
+#echo "Installing Python"
+#echo "###########################"
+sudo yum -y install python-setuptools
+sudo easy_install selenium
+
 
 #Set up directories
 rm -rf /vagrant/projects/
 mkdir /vagrant/projects/
 cd /vagrant/projects/
-
-#Update bash profile
-####OLD INSTALLERS
-#echo "Installing php..."
-#sudo yum -y install php-mysql php-devel php-gd php-pecl-memcache php-pspell php-snmp php-xmlrpc php-xml
-#echo "Installing Java..."
-#sudo yum -y install java-1.8.0-openjdk
-#echo "Installing Apache..."
-#sudo yum -y install httpd mod_ssl
