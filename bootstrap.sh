@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+
+
+
+echo "###########################"
+echo "Updating utilities"
+echo "###################################"
+sudo yum -y update
+
 echo "###########################"
 echo "Installing EPEL Repo..."
 echo "Needed as dependancy for other things..."
@@ -72,6 +80,31 @@ sudo yum install -y pymongo
 #echo 'export PATH="/usr/local/heroku/bin:$PATH"' >> /home/vagrant/.bash_profile ##Add to profile
 
 echo "###########################"
+echo "Installing Python 2.7.6 and development tools"
+echo "###################################"
+sudo yum groupinstall -y development
+sudo yum install -y zlib-dev openssl-devel sqlite-devel bzip2-devel
+sudo wget http://www.python.org/ftp/python/2.7.6/Python-2.7.6.tar.xz
+sudo xz -d Python-2.7.6.tar.xz
+sudo tar -xvf Python-2.7.6.tar
+cd Python-2.7.6
+sudo ./configure --prefix=/usr/local
+sudo make
+sudo make altinstall
+export PATH="/usr/local/bin:$PATH"
+echo 'export PATH="/usr/local/bin:$PATH"' >> /home/vagrant/.bash_profile ##Add to profile
+sudo wget --no-check-certificate https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
+sudo tar -xvf setuptools-1.4.2.tar.gz
+cd setuptools-1.4.2
+python2.7 setup.py install
+cd /vagrant
+sudo curl https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py | sudo python -
+sudo pip install virtualenv
+sudo -u vagrant -i virtualenv --python=/usr/local/bin/python2.7 virtualpython
+source /home/vagrant/virtualpython/bin/activate
+echo 'source /home/vagrant/virtualpython/bin/activate' >> /home/vagrant/.bash_profile ##Add to profile
+
+echo "###########################"
 echo "Installing Python"
 echo "###########################"
 sudo yum -y install python-setuptools
@@ -82,15 +115,6 @@ rm -rf /vagrant/projects/
 mkdir /vagrant/projects/
 cd /vagrant
 
-##echo "###########################"
-##echo "Installing Chrome"
-##echo "###########################"
-#sudo cp /vagrant/google-chrome.repo /etc/yum.repos.d/
-#wget http://chrome.richardlloyd.org.uk/install_chrome.sh
-#sudo chmod u+x install_chrome.sh
-#sudo ./install_chrome.sh -f -f -f
-#sudo yum install -y google-chrome-stable
-
 echo "###########################"
 echo "Installing Firefox"
 echo "###########################"
@@ -100,3 +124,14 @@ sudo yum -y groupinstall "X Window System" "Desktop" "Fonts" "General Purpose De
 Xvfb :99 -ac &
 export DISPLAY=:99
 echo 'export DISPLAY=:99' >> /home/vagrant/.bash_profile ##Add to profile
+
+echo "###########################"
+echo "Installing Chrome"
+echo "###########################"
+sudo yum update
+sudo dbus-uuidgen --ensure
+sudo cp /vagrant/google-chrome.repo /etc/yum.repos.d/
+#wget http://chrome.richardlloyd.org.uk/install_chrome.sh
+sudo chmod u+x install_chrome.sh
+sudo ./install_chrome.sh --force --force --force
+export LD_LIBRARY_PATH=/opt/google/chrome/lib
